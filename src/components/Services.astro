@@ -1,0 +1,45 @@
+---
+const services = [
+  {
+    icon: `<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>`,
+    title: 'Corporate Events',
+    description: "Impress clients and energize teams with catered lunches, board dinners, and company celebrations that reflect your organization's standards of excellence.",
+  },
+  {
+    icon: `<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`,
+    title: 'Weddings & Celebrations',
+    description: 'Your special day deserves a culinary experience as memorable as the moment itself. From rehearsal dinners to reception feasts, we handle every detail.',
+  },
+  {
+    icon: `<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>`,
+    title: 'Private Dining',
+    description: "An intimate chef's experience in the comfort of your home. Custom menus crafted for your palate, your guests, and your occasion — start to finish.",
+  },
+  {
+    icon: `<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+    title: 'Social Gatherings',
+    description: 'Birthday parties, holiday soirées, cocktail receptions — every gathering elevated with thoughtfully prepared food and flawless presentation.',
+  },
+];
+---
+
+<section id="services" class="py-24 bg-cream">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-16">
+      <p class="text-secondary uppercase tracking-[0.25em] text-xs font-semibold mb-5">What We Offer</p>
+      <h2 class="font-display text-4xl md:text-5xl text-charcoal leading-tight">
+        Every Occasion, Perfectly Served
+      </h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-7">
+      {services.map(({ icon, title, description }) => (
+        <div class="bg-white rounded-2xl p-8 border-t-4 border-primary shadow-sm hover:shadow-md transition-shadow">
+          <div class="text-secondary mb-5" set:html={icon} />
+          <h3 class="font-display text-2xl text-charcoal mb-3">{title}</h3>
+          <p class="text-charcoal/60 leading-relaxed">{description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
