@@ -1,0 +1,44 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'The Culinary Accountant | Charlotte, NC Catering',
+  description = 'Precision-crafted catering for every occasion in Charlotte, NC — weddings, corporate events, private dining, and social gatherings.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#2D5A1B" />
+    <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-cream font-body text-charcoal antialiased">
+    <slot />
+    <footer class="bg-charcoal text-cream/70 py-10 text-center">
+      <p class="font-display text-xl text-cream mb-1">The Culinary Accountant</p>
+      <p class="text-sm">Charlotte, North Carolina</p>
+      <p class="mt-6 text-xs text-cream/30">
+        &copy; {new Date().getFullYear()} The Culinary Accountant. All rights reserved.
+      </p>
+    </footer>
+  </body>
+</html>
