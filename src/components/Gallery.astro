@@ -1,10 +1,4 @@
 ---
-// To add real photos:
-// 1. Drop image files (JPG or WebP, ~1200px wide) into public/images/gallery/
-// 2. Replace each placeholder <div> below with:
-//    <img src="/images/gallery/your-file.jpg" alt="Description of the dish"
-//         class="w-full h-full object-cover" />
-const count = 6;
 ---
 
 <section id="gallery" class="py-24 bg-white">
@@ -20,23 +14,24 @@ const count = 6;
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-      {Array.from({ length: count }, (_, i) => (
-        <div class="aspect-[4/3] rounded-xl overflow-hidden">
-          <div
-            class="w-full h-full flex flex-col items-center justify-center gap-3"
-            style="background: linear-gradient(145deg, #edf7e5 0%, #d0ebbe 100%);"
-          >
-            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#2D5A1B" stroke-width="1" opacity="0.3">
-              <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
-              <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
-              <line x1="6" y1="1" x2="6" y2="4" />
-              <line x1="10" y1="1" x2="10" y2="4" />
-              <line x1="14" y1="1" x2="14" y2="4" />
-            </svg>
-            <p class="text-primary/30 text-xs tracking-widest uppercase">Photo {i + 1} coming soon</p>
-          </div>
-        </div>
-      ))}
+      <div class="aspect-[4/3] rounded-xl overflow-hidden">
+        <img src="/images/gallery/cookie.JPG" alt="Chocolate tarts" class="w-full h-full object-cover" />
+      </div>
+      <div class="aspect-[4/3] rounded-xl overflow-hidden">
+        <img src="/images/gallery/cookies_2.jpg" alt="Cookie" class="w-full h-full object-cover" />
+      </div>
+      <div class="aspect-[4/3] rounded-xl overflow-hidden">
+        <img src="/images/gallery/cookies_3.jpg" alt="Assorted cookies" class="w-full h-full object-cover" />
+      </div>
+      <div class="aspect-[4/3] rounded-xl overflow-hidden">
+        <img src="/images/gallery/cookies_5.JPG" alt="Assorted cookies" class="w-full h-full object-cover" />
+      </div>
+      <div class="aspect-[4/3] rounded-xl overflow-hidden">
+        <img src="/images/gallery/cookies_6.JPG" alt="Cupcakes" class="w-full h-full object-cover" />
+      </div>
+      <div class="aspect-[4/3] rounded-xl overflow-hidden">
+        <img src="/images/gallery/cupcakes_2.JPG" alt="Cupcakes" class="w-full h-full object-cover" />
+      </div>
     </div>
   </div>
 </section>
