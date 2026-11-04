@@ -1,0 +1,40 @@
+---
+import { Picture } from 'astro:assets';
+import { occasions, offerings } from '../data/site';
+
+const numerals = ['I', 'II', 'III', 'IV', 'V', 'VI'];
+---
+
+<section id="menu" class="bg-linen">
+  <div class="max-w-7xl mx-auto px-5 md:px-10 py-24 md:py-32">
+    <div class="grid md:grid-cols-12 gap-6 mb-16 md:mb-20">
+      <p class="kicker md:col-span-3">No. 02 &mdash; The Menu</p>
+      <h2 class="md:col-span-9 font-display text-4xl md:text-6xl leading-[1.05]">Made to order, <em>never from stock.</em></h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-12 md:gap-8 mb-28">
+      {offerings.map(({ title, description, image }, i) => (
+        <article>
+          <div class="arch overflow-hidden aspect-[3/4] mb-7">
+            <Picture src={image.src} alt={image.alt} widths={[360, 600]} sizes="(min-width: 768px) 30vw, 100vw" formats={['avif', 'webp']} class="w-full h-full object-cover" />
+          </div>
+          <p class="font-display italic text-taupe text-xl mb-1">{numerals[i]}.</p>
+          <h3 class="font-display text-3xl mb-3">{title}</h3>
+          <p class="text-mute leading-relaxed text-[15px]">{description}</p>
+        </article>
+      ))}
+    </div>
+
+    <div class="grid md:grid-cols-12 gap-6">
+      <p class="kicker md:col-span-3">Occasions</p>
+      <dl class="md:col-span-9 divide-y divide-ink/15 border-y border-ink/15">
+        {occasions.map(({ title, description }) => (
+          <div class="grid sm:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] gap-2 sm:gap-10 py-6">
+            <dt class="font-display text-2xl md:text-3xl">{title}</dt>
+            <dd class="text-mute leading-relaxed text-[15px] sm:pt-2">{description}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </div>
+</section>

@@ -1,22 +1,41 @@
 @import "tailwindcss";
 
+/* "Atelier" theme: an editorial, gallery-like treatment that lets the photography carry
+   the page. Restrained palette so the colors in the cookies are the only saturated
+   color anywhere on screen. */
 @theme {
-  --color-primary: #2D5A1B;
-  --color-secondary: #C9A84C;
-  --color-cream: #FAF7F0;
-  --color-charcoal: #2C2C2C;
+  --color-ivory: #F6F2EB;
+  --color-linen: #ECE5D9;
+  --color-ink: #1C1B19;
+  --color-taupe: #9A8469;
+  --color-mute: #6E675E;
 
-  --font-display: "Playfair Display", serif;
-  --font-body: Inter, sans-serif;
+  --font-display: "Cormorant Garamond", "Cormorant", Georgia, serif;
+  --font-body: "Manrope", ui-sans-serif, sans-serif;
 }
 
-/* Offset in-page anchor jumps so section headings are not hidden under the sticky nav. */
 html {
   scroll-padding-top: 5rem;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+@layer components {
+  .kicker {
+    @apply font-body text-[11px] font-semibold uppercase tracking-[0.32em] text-taupe;
   }
+  /* Text link with an underline that draws in on hover: the editorial stand-in for a button. */
+  .link-draw {
+    @apply relative inline-flex items-center gap-3 pb-1 font-body text-xs font-semibold uppercase tracking-[0.28em];
+    background: linear-gradient(currentColor, currentColor) left bottom / 100% 1px no-repeat;
+    transition: background-size 0.4s ease;
+  }
+  .link-draw:hover {
+    background-size: 35% 1px;
+  }
+  .arch {
+    border-radius: 999px 999px 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
 }

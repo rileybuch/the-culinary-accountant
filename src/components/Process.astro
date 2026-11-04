@@ -1,38 +1,30 @@
 ---
-import InstagramIcon from './InstagramIcon.astro';
 import { orderSteps, primaryCta } from '../data/site';
+
+const numerals = ['I', 'II', 'III', 'IV'];
 ---
 
-<section id="how-to-order" class="py-24 bg-cream">
-  <div class="max-w-5xl mx-auto px-6">
-    <div class="text-center mb-16">
-      <p class="text-secondary uppercase tracking-[0.25em] text-xs font-semibold mb-5">How to Order</p>
-      <h2 class="font-display text-4xl md:text-5xl text-charcoal leading-tight">
-        Three Simple Steps
-      </h2>
-    </div>
+<section id="process" class="max-w-7xl mx-auto px-5 md:px-10 py-24 md:py-32">
+  <div class="grid md:grid-cols-12 gap-6 mb-16">
+    <p class="kicker md:col-span-3">No. 03 &mdash; The Process</p>
+    <h2 class="md:col-span-9 font-display text-4xl md:text-6xl leading-[1.05]">From first message to <em>final flourish.</em></h2>
+  </div>
 
-    <ol class="grid md:grid-cols-3 gap-10 md:gap-8 mb-14">
-      {orderSteps.map(({ title, description }, i) => (
-        <li class="text-center">
-          <span class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary text-secondary font-display text-2xl mb-5">
-            {i + 1}
-          </span>
-          <h3 class="font-display text-xl text-charcoal mb-2">{title}</h3>
-          <p class="text-charcoal/60 leading-relaxed">{description}</p>
-        </li>
-      ))}
-    </ol>
+  <ol class="grid md:grid-cols-12 gap-6">
+    <li class="hidden md:block md:col-span-3" aria-hidden="true"></li>
+    {orderSteps.map(({ title, description }, i) => (
+      <li class="md:col-span-3 border-t border-ink pt-6">
+        <p class="font-display italic text-5xl text-taupe mb-6">{numerals[i]}</p>
+        <h3 class="font-display text-2xl mb-3">{title}</h3>
+        <p class="text-mute leading-relaxed text-[15px]">{description}</p>
+      </li>
+    ))}
+  </ol>
 
-    <div class="text-center">
-      <a
-        href={primaryCta.href}
-        target="_blank"
-        rel="noopener"
-        class="inline-flex items-center gap-2.5 bg-primary text-cream font-semibold px-9 py-4 rounded text-xs uppercase tracking-[0.2em] hover:bg-primary/90 transition-colors"
-      >
-        <InstagramIcon size={16} />
-        {primaryCta.label}
+  <div class="grid md:grid-cols-12 gap-6 mt-16">
+    <div class="md:col-start-4 md:col-span-9">
+      <a href={primaryCta.href} target="_blank" rel="noopener" class="link-draw">
+        {primaryCta.label} <span aria-hidden="true">&rarr;</span>
       </a>
     </div>
   </div>

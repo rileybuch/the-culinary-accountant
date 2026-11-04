@@ -1,0 +1,35 @@
+---
+import { business, instagram, primaryCta } from '../data/site';
+
+const left = [
+  { href: '#portfolio', label: 'Portfolio' },
+  { href: '#menu', label: 'Menu' },
+];
+const right = [
+  { href: '#process', label: 'Process' },
+  { href: '#about', label: 'Atelier' },
+];
+---
+
+<header class="sticky top-0 z-50 bg-ivory/90 backdrop-blur border-b border-ink/10">
+  <nav class="max-w-7xl mx-auto px-5 md:px-10 h-16 md:h-20 grid grid-cols-[1fr_auto_1fr] items-center">
+    <ul class="hidden md:flex gap-9 kicker !text-ink/70">
+      {left.map(({ href, label }) => <li><a href={href} class="hover:text-ink transition-colors">{label}</a></li>)}
+    </ul>
+    <a href={instagram.url} target="_blank" rel="noopener" class="md:hidden kicker !text-ink/70">Instagram</a>
+
+    <a href="#home" class="font-display text-xl md:text-2xl tracking-wide text-center">
+      <span class="italic">The</span> Culinary Accountant
+    </a>
+
+    <div class="flex justify-end items-center gap-9">
+      <ul class="hidden md:flex gap-9 kicker !text-ink/70">
+        {right.map(({ href, label }) => <li><a href={href} class="hover:text-ink transition-colors">{label}</a></li>)}
+      </ul>
+      <a href={primaryCta.href} target="_blank" rel="noopener" class="kicker !text-ink border border-ink/80 px-4 py-2.5 hover:bg-ink hover:!text-ivory transition-colors">
+        Enquire
+      </a>
+    </div>
+  </nav>
+  <span class="sr-only">{business.name}</span>
+</header>

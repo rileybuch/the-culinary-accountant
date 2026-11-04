@@ -1,30 +1,22 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Nav from '../components/Nav.astro';
+import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
-import Gallery from '../components/Gallery.astro';
-import Offerings from '../components/Offerings.astro';
-import Occasions from '../components/Occasions.astro';
+import Portfolio from '../components/Portfolio.astro';
+import Menu from '../components/Menu.astro';
 import Process from '../components/Process.astro';
 import About from '../components/About.astro';
 import Contact from '../components/Contact.astro';
-import Footer from '../components/Footer.astro';
-import MobileCta from '../components/MobileCta.astro';
 ---
 
-<!-- Section order follows the visitor's decision path: see the work, learn what can be
-     ordered and for which occasions, understand how ordering works, then reach out. -->
 <Layout>
-  <Nav />
+  <Header />
   <main>
     <Hero />
-    <Gallery />
-    <Offerings />
-    <Occasions />
+    <Portfolio />
+    <Menu />
     <Process />
     <About />
     <Contact />
   </main>
-  <Footer />
-  <MobileCta />
 </Layout>
