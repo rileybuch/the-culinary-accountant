@@ -1,0 +1,31 @@
+---
+import InstagramIcon from './InstagramIcon.astro';
+import { primaryCta } from '../data/site';
+---
+
+<!-- Thumb-reachable order button on small screens, where the nav CTA is hidden in the
+     menu. Hidden while the hero is on screen so it does not duplicate the hero buttons. -->
+<div
+  id="mobile-cta"
+  class="md:hidden fixed inset-x-0 bottom-0 z-40 p-3 bg-cream/95 backdrop-blur border-t border-primary/10 translate-y-full transition-transform duration-300"
+>
+  <a
+    href={primaryCta.href}
+    target="_blank"
+    rel="noopener"
+    class="flex items-center justify-center gap-2.5 bg-primary text-cream font-semibold py-3.5 rounded text-xs uppercase tracking-[0.2em]"
+  >
+    <InstagramIcon size={16} />
+    {primaryCta.label}
+  </a>
+</div>
+
+<script>
+  const bar = document.getElementById('mobile-cta');
+  const hero = document.getElementById('home');
+  if (bar && hero) {
+    new IntersectionObserver(([entry]) => {
+      bar.classList.toggle('translate-y-full', entry.isIntersecting);
+    }).observe(hero);
+  }
+</script>
