@@ -9,3 +9,14 @@
   --font-display: "Playfair Display", serif;
   --font-body: Inter, sans-serif;
 }
+
+/* Offset in-page anchor jumps so section headings are not hidden under the sticky nav. */
+html {
+  scroll-padding-top: 5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

@@ -1,9 +1,14 @@
 ---
+import { Picture } from 'astro:assets';
+import InstagramIcon from './InstagramIcon.astro';
+import { business, heroImages, primaryCta } from '../data/site';
+
+const [main, top, bottom] = heroImages;
 ---
 
 <section
   id="home"
-  class="relative min-h-screen flex items-center justify-center text-center overflow-hidden"
+  class="relative overflow-hidden"
   style="background: linear-gradient(150deg, #162b09 0%, #2D5A1B 45%, #1a3a0a 100%);"
 >
   <div
@@ -11,29 +16,73 @@
     style="background-image: radial-gradient(circle, #ffffff 1px, transparent 1px); background-size: 40px 40px;"
   ></div>
 
-  <div class="relative z-10 px-6 max-w-4xl mx-auto">
-    <p class="text-secondary uppercase tracking-[0.35em] text-xs font-semibold mb-8">
-      Charlotte, North Carolina
-    </p>
-    <h1 class="font-display text-5xl md:text-7xl lg:text-8xl text-cream font-bold leading-[1.05] mb-6">
-      The Culinary<br />Accountant
-    </h1>
-    <p class="text-cream/60 text-lg md:text-xl max-w-xl mx-auto mb-12 leading-relaxed font-light">
-      Precision-crafted catering for every occasion —<br class="hidden md:block" />
-      where every detail is accounted for.
-    </p>
-    <a
-      href="#services"
-      class="inline-block bg-secondary text-charcoal font-semibold px-10 py-4 rounded text-xs uppercase tracking-[0.2em] hover:bg-secondary/90 transition-colors"
-    >
-      Explore Our Services
-    </a>
-  </div>
+  <div class="relative z-10 max-w-6xl mx-auto px-6 py-20 md:py-28 grid lg:grid-cols-[1.05fr_1fr] gap-14 items-center">
+    <div class="text-center lg:text-left">
+      <p class="text-secondary uppercase tracking-[0.35em] text-xs font-semibold mb-7">
+        {business.location}
+      </p>
+      <h1 class="font-display text-5xl md:text-7xl text-cream font-bold leading-[1.05] mb-6">
+        The Culinary<br />Accountant
+      </h1>
+      <p class="text-cream/70 text-lg md:text-xl max-w-xl mx-auto lg:mx-0 mb-10 leading-relaxed font-light">
+        {business.pitch}
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+        <a
+          href={primaryCta.href}
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center justify-center gap-2.5 bg-secondary text-charcoal font-semibold px-8 py-4 rounded text-xs uppercase tracking-[0.2em] hover:bg-secondary/90 transition-colors"
+        >
+          <InstagramIcon size={16} />
+          {primaryCta.label}
+        </a>
+        <a
+          href="#gallery"
+          class="inline-flex items-center justify-center border border-cream/30 text-cream font-semibold px-8 py-4 rounded text-xs uppercase tracking-[0.2em] hover:bg-cream/10 transition-colors"
+        >
+          See Our Work
+        </a>
+      </div>
+    </div>
 
-  <div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-cream/20 animate-bounce">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-      <line x1="12" y1="5" x2="12" y2="19"></line>
-      <polyline points="19 12 12 19 5 12"></polyline>
-    </svg>
+    <!-- Asymmetric photo stack: shows real work above the fold, which is what converts
+         visitors far better than a text-only hero. -->
+    <div class="grid grid-cols-5 grid-rows-2 gap-4 h-[420px] md:h-[520px]">
+      <div class="col-span-3 row-span-2 rounded-2xl overflow-hidden shadow-2xl ring-1 ring-cream/10">
+        <Picture
+          src={main.src}
+          alt={main.alt}
+          widths={[400, 700, 1000]}
+          sizes="(min-width: 1024px) 340px, 60vw"
+          formats={['avif', 'webp']}
+          loading="eager"
+          fetchpriority="high"
+          class="w-full h-full object-cover"
+        />
+      </div>
+      <div class="col-span-2 rounded-2xl overflow-hidden shadow-xl ring-1 ring-cream/10">
+        <Picture
+          src={top.src}
+          alt={top.alt}
+          widths={[300, 600]}
+          sizes="(min-width: 1024px) 220px, 40vw"
+          formats={['avif', 'webp']}
+          loading="eager"
+          class="w-full h-full object-cover"
+        />
+      </div>
+      <div class="col-span-2 rounded-2xl overflow-hidden shadow-xl ring-1 ring-cream/10">
+        <Picture
+          src={bottom.src}
+          alt={bottom.alt}
+          widths={[300, 600]}
+          sizes="(min-width: 1024px) 220px, 40vw"
+          formats={['avif', 'webp']}
+          loading="eager"
+          class="w-full h-full object-cover"
+        />
+      </div>
+    </div>
   </div>
 </section>
