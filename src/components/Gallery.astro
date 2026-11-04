@@ -4,106 +4,71 @@ import InstagramIcon from './InstagramIcon.astro';
 import { gallery, instagram } from '../data/site';
 
 const categories = ['All', ...new Set(gallery.map((item) => item.category))];
+const tilts = ['-rotate-2', 'rotate-1', 'rotate-2', '-rotate-1', 'rotate-1', '-rotate-2'];
 
-// Pre-render one large, compressed version per photo for the lightbox so opening an
-// image never pulls the multi-megabyte camera original.
+// One compressed large rendition per photo for the lightbox, so opening an image never
+// downloads the camera original.
 const items = await Promise.all(
-  gallery.map(async (item, i) => ({
+  gallery.map(async (item) => ({
     ...item,
     full: (await getImage({ src: item.src, width: 1600, format: 'webp' })).src,
-    // Two large tiles break up the grid; with ten photos this fills a 4x4 grid exactly
-    // on desktop and a 2-column grid on mobile with no orphan cells.
-    featured: i === 0 || i === 5,
   })),
 );
 ---
 
-<section id="gallery" class="py-24 bg-white">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="text-center mb-12">
-      <p class="text-secondary uppercase tracking-[0.25em] text-xs font-semibold mb-5">Our Work</p>
-      <h2 class="font-display text-4xl md:text-5xl text-charcoal mb-5 leading-tight">
-        Every Treat Tells a Story
-      </h2>
-      <p class="text-charcoal/55 max-w-md mx-auto leading-relaxed">
-        A glimpse of recent orders. Every set is designed from scratch for the occasion.
-      </p>
+<section id="gallery" class="py-24 bg-blush">
+  <div class="max-w-6xl mx-auto px-5">
+    <div class="text-center mb-10">
+      <span class="eyebrow mb-5">Fresh from the oven</span>
+      <h2 class="font-display font-bold text-4xl md:text-6xl mb-4">Recent sweet things</h2>
+      <p class="text-lg text-cocoa/75 max-w-md mx-auto">Every set is designed from scratch for its party. Tap a photo for a closer look.</p>
     </div>
 
-    <div class="flex flex-wrap justify-center gap-2 mb-10" role="group" aria-label="Filter gallery">
+    <div class="flex flex-wrap justify-center gap-3 mb-12" role="group" aria-label="Filter treats">
       {categories.map((category, i) => (
         <button
           type="button"
           data-filter={category}
           aria-pressed={i === 0 ? 'true' : 'false'}
-          class="filter-btn px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-[0.15em] border border-primary/20 text-primary transition-colors aria-pressed:bg-primary aria-pressed:text-cream aria-pressed:border-primary hover:border-primary"
+          class="filter-btn rounded-full border-2 border-cocoa bg-white px-5 py-2 font-display font-semibold transition-colors aria-pressed:bg-cocoa aria-pressed:text-sugar hover:bg-butter aria-pressed:hover:bg-cocoa"
         >
           {category}
         </button>
       ))}
     </div>
 
-    <!-- grid-flow-dense backfills gaps left by the featured tiles when a filter is applied. -->
-    <ul class="grid grid-cols-2 lg:grid-cols-4 grid-flow-dense gap-3 md:gap-4">
-      {items.map((item) => (
-        <li
-          class:list={['gallery-item aspect-square', { 'col-span-2 row-span-2': item.featured }]}
-          data-category={item.category}
-        >
+    <ul class="grid grid-cols-2 lg:grid-cols-5 gap-5 md:gap-6">
+      {items.map((item, i) => (
+        <li class="gallery-item" data-category={item.category}>
           <button
             type="button"
-            class="group relative block w-full h-full rounded-xl overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            class:list={['polaroid block w-full text-left transition-transform hover:rotate-0 hover:-translate-y-1 focus-visible:rotate-0 focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-berry', tilts[i % tilts.length]]}
             data-full={item.full}
             data-alt={item.alt}
             data-caption={item.caption}
             aria-label={`View larger: ${item.caption}`}
           >
-            <Picture
-              src={item.src}
-              alt={item.alt}
-              widths={[320, 480, 720, 1100]}
-              sizes={item.featured ? '(min-width: 1024px) 570px, 100vw' : '(min-width: 1024px) 285px, 50vw'}
-              formats={['avif', 'webp']}
-              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-            />
-            <span class="pointer-events-none absolute inset-x-0 bottom-0 p-4 text-left bg-gradient-to-t from-charcoal/80 via-charcoal/30 to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 md:group-focus-visible:opacity-100 transition-opacity">
-              <span class="block text-secondary text-[10px] font-semibold uppercase tracking-[0.2em]">{item.occasion}</span>
-              <span class="block text-cream text-sm font-medium">{item.caption}</span>
-            </span>
+            <Picture src={item.src} alt={item.alt} widths={[300, 460, 620]} sizes="(min-width: 1024px) 210px, 46vw" formats={['avif', 'webp']} class="w-full aspect-square object-cover rounded" />
+            <span class="block font-display font-semibold text-sm md:text-base mt-3 leading-tight">{item.caption}</span>
+            <span class="block text-xs font-bold uppercase tracking-wider text-berry mt-1">{item.occasion}</span>
           </button>
         </li>
       ))}
     </ul>
 
-    <div class="text-center mt-12">
-      <a
-        href={instagram.url}
-        target="_blank"
-        rel="noopener"
-        class="inline-flex items-center gap-2.5 text-primary font-semibold text-sm uppercase tracking-[0.18em] border-b-2 border-secondary pb-1 hover:text-primary/80 transition-colors"
-      >
-        <InstagramIcon size={16} />
-        More on Instagram {instagram.handle}
+    <div class="text-center mt-14">
+      <a href={instagram.url} target="_blank" rel="noopener" class="btn-pop bg-butter">
+        <InstagramIcon size={18} />
+        See more on {instagram.handle}
       </a>
     </div>
   </div>
 
-  <dialog
-    id="lightbox"
-    class="m-auto max-w-[min(92vw,1100px)] max-h-[92vh] bg-transparent p-0 backdrop:bg-charcoal/85 backdrop:backdrop-blur-sm"
-    aria-label="Photo viewer"
-  >
-    <figure class="relative">
-      <img id="lightbox-img" src="" alt="" class="max-h-[82vh] w-auto mx-auto rounded-lg" />
-      <figcaption id="lightbox-caption" class="text-center text-cream font-display text-lg mt-4"></figcaption>
-      <button
-        id="lightbox-close"
-        type="button"
-        class="absolute -top-3 -right-3 w-10 h-10 rounded-full bg-cream text-charcoal text-xl leading-none shadow-lg"
-        aria-label="Close photo viewer"
-      >
-        &times;
-      </button>
+  <dialog id="lightbox" class="m-auto bg-transparent p-0 max-w-[min(92vw,1000px)] backdrop:bg-cocoa/80" aria-label="Photo viewer">
+    <figure class="polaroid relative !p-3 !pb-5">
+      <img id="lightbox-img" src="" alt="" class="max-h-[78vh] w-auto mx-auto rounded" />
+      <figcaption id="lightbox-caption" class="font-display font-semibold text-xl text-center mt-3"></figcaption>
+      <button id="lightbox-close" type="button" class="absolute -top-4 -right-4 w-11 h-11 rounded-full bg-pink border-2 border-cocoa font-display text-2xl leading-none" aria-label="Close photo viewer">&times;</button>
     </figure>
   </dialog>
 </section>
@@ -111,23 +76,19 @@ const items = await Promise.all(
 <script>
   const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
   const galleryItems = document.querySelectorAll<HTMLElement>('.gallery-item');
-
   buttons.forEach((btn) => {
     btn.addEventListener('click', () => {
-      const filter = btn.dataset.filter;
       buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
       galleryItems.forEach((item) => {
-        item.hidden = filter !== 'All' && item.dataset.category !== filter;
+        item.hidden = btn.dataset.filter !== 'All' && item.dataset.category !== btn.dataset.filter;
       });
     });
   });
 
-  // Native <dialog> provides focus trapping, Escape-to-close and inert background
-  // for free, which keeps the lightbox accessible without a library.
+  // Native <dialog> handles focus trapping and Escape-to-close without a library.
   const dialog = document.getElementById('lightbox') as HTMLDialogElement | null;
   const img = document.getElementById('lightbox-img') as HTMLImageElement | null;
   const caption = document.getElementById('lightbox-caption');
-
   document.querySelectorAll<HTMLButtonElement>('[data-full]').forEach((trigger) => {
     trigger.addEventListener('click', () => {
       if (!dialog || !img || !caption) return;
@@ -137,9 +98,7 @@ const items = await Promise.all(
       dialog.showModal();
     });
   });
-
   document.getElementById('lightbox-close')?.addEventListener('click', () => dialog?.close());
-  // Clicking the backdrop (the dialog element itself, outside the figure) closes it.
   dialog?.addEventListener('click', (event) => {
     if (event.target === dialog) dialog.close();
   });

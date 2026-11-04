@@ -1,22 +1,60 @@
 @import "tailwindcss";
 
+/* "Sprinkles" theme: palette sampled from the icing colors in the photos so the UI
+   feels like an extension of the product rather than a frame around it. */
 @theme {
-  --color-primary: #2D5A1B;
-  --color-secondary: #C9A84C;
-  --color-cream: #FAF7F0;
-  --color-charcoal: #2C2C2C;
+  --color-sugar: #FFF8F0;
+  --color-blush: #FDE4EC;
+  --color-pink: #F28DB2;
+  --color-berry: #D9487D;
+  --color-butter: #FFE08A;
+  --color-mint: #A8DDB5;
+  --color-sky: #BFDDF5;
+  --color-cocoa: #3B2420;
 
-  --font-display: "Playfair Display", serif;
-  --font-body: Inter, sans-serif;
+  --font-display: "Fredoka", ui-rounded, sans-serif;
+  --font-body: "Nunito", ui-sans-serif, sans-serif;
+
+  --animate-marquee: marquee 28s linear infinite;
+  --animate-spin-slow: spin 18s linear infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
 }
 
-/* Offset in-page anchor jumps so section headings are not hidden under the sticky nav. */
 html {
-  scroll-padding-top: 5rem;
+  scroll-padding-top: 6rem;
+}
+
+@layer components {
+  /* Chunky offset-shadow button: reads as tactile and playful, and the hard shadow keeps
+     contrast high on pastel backgrounds where soft shadows disappear. */
+  .btn-pop {
+    @apply inline-flex items-center justify-center gap-2.5 rounded-full border-2 border-cocoa px-7 py-3.5 font-display text-base font-semibold text-cocoa transition-transform;
+    box-shadow: 4px 4px 0 var(--color-cocoa);
+  }
+  .btn-pop:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--color-cocoa);
+  }
+  .btn-pop:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--color-cocoa);
+  }
+
+  .polaroid {
+    @apply bg-white p-2.5 pb-4 rounded-md border-2 border-cocoa;
+    box-shadow: 5px 5px 0 var(--color-cocoa);
+  }
+
+  .eyebrow {
+    @apply inline-block rounded-full bg-butter border-2 border-cocoa px-4 py-1 font-display text-sm font-semibold text-cocoa;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+  html { scroll-behavior: auto; }
+  .animate-marquee, .animate-spin-slow { animation: none; }
 }

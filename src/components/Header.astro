@@ -1,0 +1,45 @@
+---
+import InstagramIcon from './InstagramIcon.astro';
+import { business, instagram, primaryCta } from '../data/site';
+
+const links = [
+  { href: '#gallery', label: 'Treats' },
+  { href: '#menu', label: 'Menu' },
+  { href: '#how-to-order', label: 'Ordering' },
+  { href: '#about', label: 'About' },
+];
+---
+
+<!-- Floating pill header: stays out of the way of the photos while keeping the order
+     button one tap away on every screen. -->
+<header class="sticky top-3 z-50 px-3">
+  <nav class="max-w-6xl mx-auto flex items-center justify-between gap-4 rounded-full border-2 border-cocoa bg-white/95 backdrop-blur pl-5 pr-2 py-2 shadow-[4px_4px_0_var(--color-cocoa)]">
+    <a href="#home" class="font-display text-lg md:text-xl font-bold leading-none">
+      <span class="text-berry">The Culinary</span> Accountant
+    </a>
+    <ul class="hidden lg:flex items-center gap-7 font-display font-semibold">
+      {links.map(({ href, label }) => (
+        <li><a href={href} class="hover:text-berry transition-colors">{label}</a></li>
+      ))}
+    </ul>
+    <div class="flex items-center gap-2">
+      <a
+        href={instagram.url}
+        target="_blank"
+        rel="noopener"
+        class="hidden sm:inline-flex w-10 h-10 items-center justify-center rounded-full hover:bg-blush transition-colors"
+        aria-label={`${business.name} on Instagram`}
+      >
+        <InstagramIcon size={20} />
+      </a>
+      <a
+        href={primaryCta.href}
+        target="_blank"
+        rel="noopener"
+        class="rounded-full bg-pink border-2 border-cocoa px-5 py-2 font-display font-semibold text-sm md:text-base hover:bg-berry hover:text-white transition-colors"
+      >
+        Order treats
+      </a>
+    </div>
+  </nav>
+</header>

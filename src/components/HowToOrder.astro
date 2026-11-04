@@ -1,0 +1,38 @@
+---
+import InstagramIcon from './InstagramIcon.astro';
+import { orderSteps, primaryCta } from '../data/site';
+
+const bubbleColors = ['bg-pink', 'bg-butter', 'bg-mint'];
+---
+
+<section id="how-to-order" class="py-24 bg-sky/40 border-y-2 border-cocoa">
+  <div class="max-w-5xl mx-auto px-5">
+    <div class="text-center mb-16">
+      <span class="eyebrow mb-5">Easy as pie</span>
+      <h2 class="font-display font-bold text-4xl md:text-6xl">How ordering works</h2>
+    </div>
+
+    <ol class="relative grid md:grid-cols-3 gap-12 md:gap-8 mb-16">
+      <!-- Dashed path linking the steps on wide screens to read as a single journey. -->
+      <svg class="hidden md:block absolute top-10 left-[16%] w-[68%] h-8" viewBox="0 0 600 30" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 15 Q 75 0 150 15 T 300 15 T 450 15 T 600 15" fill="none" stroke="#3B2420" stroke-width="2.5" stroke-dasharray="8 8" />
+      </svg>
+      {orderSteps.map(({ title, description }, i) => (
+        <li class="relative text-center">
+          <span class:list={['inline-flex w-20 h-20 items-center justify-center rounded-full border-2 border-cocoa font-display font-bold text-3xl mb-5 shadow-[4px_4px_0_var(--color-cocoa)]', bubbleColors[i % bubbleColors.length]]}>
+            {i + 1}
+          </span>
+          <h3 class="font-display font-bold text-2xl mb-2">{title}</h3>
+          <p class="text-cocoa/80 max-w-xs mx-auto">{description}</p>
+        </li>
+      ))}
+    </ol>
+
+    <div class="text-center">
+      <a href={primaryCta.href} target="_blank" rel="noopener" class="btn-pop bg-pink text-lg">
+        <InstagramIcon size={20} />
+        {primaryCta.label}
+      </a>
+    </div>
+  </div>
+</section>
