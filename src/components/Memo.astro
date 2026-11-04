@@ -1,0 +1,34 @@
+---
+import { Picture } from 'astro:assets';
+import { about, aboutImage, business } from '../data/site';
+---
+
+<section id="memo" class="graph-paper py-24 border-b-2 border-navy">
+  <div class="max-w-6xl mx-auto px-5 grid lg:grid-cols-12 gap-12 items-center">
+    <div class="lg:col-span-5 relative max-w-md mx-auto w-full">
+      <div class="bg-receipt border-2 border-navy p-3 -rotate-2 shadow-[8px_8px_0_var(--color-navy)]">
+        <Picture src={aboutImage.src} alt={aboutImage.alt} widths={[400, 700]} sizes="(min-width: 1024px) 420px, 90vw" formats={['avif', 'webp']} class="w-full aspect-[4/5] object-cover" />
+      </div>
+      <!-- Paper clip -->
+      <svg class="absolute -top-6 left-10 w-8 h-20 rotate-[-8deg]" viewBox="0 0 24 60" fill="none" stroke="#5B5F68" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+        <path d="M8 22 V46 a4 4 0 0 0 8 0 V12 a7 7 0 0 0 -14 0 V48 a10 10 0 0 0 20 0 V22" />
+      </svg>
+    </div>
+
+    <article class="lg:col-span-7 bg-receipt border-2 border-navy p-7 md:p-10">
+      <p class="label mb-1"><span class="text-redpen">04</span> / Internal memorandum</p>
+      <dl class="font-mono text-sm grid grid-cols-[4.5rem_1fr] gap-y-1.5 border-b-2 border-navy pb-5 mb-7 mt-5">
+        <dt class="text-graphite">TO:</dt><dd>You, the host</dd>
+        <dt class="text-graphite">FROM:</dt><dd>{business.name}</dd>
+        <dt class="text-graphite">RE:</dt><dd>{about.heading}</dd>
+      </dl>
+      {about.paragraphs.map((p, i) => (
+        <p class:list={['leading-relaxed mb-5', i === 0 ? 'text-lg' : 'text-graphite']}>{p}</p>
+      ))}
+      <div class="flex items-center justify-between mt-8">
+        <p class="font-mono text-sm text-graphite">Filed in {business.location}</p>
+        <span class="stamp !text-sm rotate-[-4deg]">Verified</span>
+      </div>
+    </article>
+  </div>
+</section>

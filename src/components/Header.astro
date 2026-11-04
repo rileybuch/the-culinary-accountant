@@ -1,0 +1,36 @@
+---
+import InstagramIcon from './InstagramIcon.astro';
+import { business, instagram, primaryCta } from '../data/site';
+
+const links = [
+  { href: '#exhibits', code: '01', label: 'Exhibits' },
+  { href: '#line-items', code: '02', label: 'Menu' },
+  { href: '#procedure', code: '03', label: 'Ordering' },
+  { href: '#memo', code: '04', label: 'About' },
+];
+---
+
+<header class="sticky top-0 z-50 bg-receipt/95 backdrop-blur border-b-2 border-navy">
+  <nav class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between gap-6">
+    <a href="#home" class="flex items-baseline gap-3">
+      <span class="font-display text-lg sm:text-xl md:text-2xl whitespace-nowrap">{business.name}</span>
+      <span class="hidden sm:inline label">Est. {business.locationShort}</span>
+    </a>
+    <ul class="hidden lg:flex items-center gap-7 font-mono text-sm">
+      {links.map(({ href, code, label }) => (
+        <li>
+          <a href={href} class="group">
+            <span class="text-redpen">{code}</span>
+            <span class="group-hover:underline decoration-redpen decoration-2 underline-offset-4">{label}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <div class="flex items-center gap-3">
+      <a href={instagram.url} target="_blank" rel="noopener" class="hidden sm:inline-flex p-2 hover:text-redpen" aria-label={`${business.name} on Instagram`}>
+        <InstagramIcon size={20} />
+      </a>
+      <a href={primaryCta.href} target="_blank" rel="noopener" class="hidden md:inline-flex btn-ledger !px-4 !py-2.5 !text-xs whitespace-nowrap">Place an order</a>
+    </div>
+  </nav>
+</header>

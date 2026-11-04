@@ -1,0 +1,54 @@
+---
+import { Picture } from 'astro:assets';
+import { occasions, offerings } from '../data/site';
+
+// Account codes are decorative; they number occasions like a chart of accounts.
+const accountCode = (i: number) => String(101 + i * 10);
+---
+
+<section id="line-items" class="graph-paper py-24 border-b-2 border-navy">
+  <div class="max-w-6xl mx-auto px-5">
+    <p class="label mb-3"><span class="text-redpen">02</span> / Schedule of goods</p>
+    <h2 class="font-display text-4xl md:text-6xl mb-12">Line items</h2>
+
+    <!-- A real table: the content is tabular and screen readers announce it as such. -->
+    <div class="border-2 border-navy bg-receipt shadow-[8px_8px_0_var(--color-navy)] mb-24">
+      <table class="w-full text-left">
+        <thead class="hidden md:table-header-group">
+          <tr class="border-b-2 border-navy font-mono text-xs uppercase tracking-widest">
+            <th scope="col" class="px-5 py-3 w-16">No.</th>
+            <th scope="col" class="px-5 py-3 w-40">Ref.</th>
+            <th scope="col" class="px-5 py-3">Item</th>
+            <th scope="col" class="px-5 py-3">Description</th>
+            <th scope="col" class="px-5 py-3 text-right">Terms</th>
+          </tr>
+        </thead>
+        <tbody>
+          {offerings.map(({ title, description, image }, i) => (
+            <tr class="flex flex-col md:table-row border-b border-navy/20 last:border-b-0 border-l-4 md:border-l-0 border-l-ledger">
+              <td class="hidden md:table-cell px-5 py-6 align-top font-mono text-redpen">{String(i + 1).padStart(3, '0')}</td>
+              <td class="px-5 pt-5 md:py-6 align-top">
+                <Picture src={image.src} alt={image.alt} widths={[160, 320]} sizes="128px" formats={['avif', 'webp']} class="w-full md:w-32 aspect-[16/9] md:aspect-square object-cover border-2 border-navy" />
+              </td>
+              <th scope="row" class="px-5 pt-4 md:py-6 align-top font-display text-2xl md:text-3xl font-normal">{title}</th>
+              <td class="px-5 pt-2 md:py-6 align-top text-graphite leading-relaxed max-w-md">{description}</td>
+              <td class="px-5 pt-3 pb-6 md:py-6 align-top md:text-right font-mono text-sm text-ledger whitespace-nowrap">Made to order</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <p class="label mb-3">Chart of accounts</p>
+    <h3 class="font-display text-3xl md:text-5xl mb-10">Occasions we serve</h3>
+    <ul class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      {occasions.map(({ title, description }, i) => (
+        <li class="bg-receipt border-2 border-navy p-6">
+          <p class="font-mono text-sm text-redpen mb-4">Acct. {accountCode(i)}</p>
+          <h4 class="font-display text-2xl leading-tight mb-3">{title}</h4>
+          <p class="text-graphite text-sm leading-relaxed">{description}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

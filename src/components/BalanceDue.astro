@@ -1,0 +1,57 @@
+---
+import InstagramIcon from './InstagramIcon.astro';
+import RedCircle from './RedCircle.astro';
+import { business, contact, instagram, primaryCta } from '../data/site';
+
+// Rows render only for channels that exist, so adding an email or phone in site.ts
+// extends this ledger automatically.
+const rows = [
+  { label: 'Instagram', value: instagram.handle, href: instagram.url },
+  contact.email && { label: 'Email', value: contact.email, href: `mailto:${contact.email}` },
+  contact.phone && { label: 'Phone', value: contact.phone, href: `tel:${contact.phone.replace(/[^\d+]/g, '')}` },
+  { label: 'Location', value: business.location },
+].filter(Boolean) as { label: string; value: string; href?: string }[];
+---
+
+<section id="contact" class="bg-receipt py-24">
+  <div class="max-w-4xl mx-auto px-5 text-center">
+    <p class="label mb-4"><span class="text-redpen">05</span> / Balance due</p>
+    <h2 class="font-display text-5xl md:text-7xl leading-[1.02] mb-6">
+      Your next event is <RedCircle>one message</RedCircle> away.
+    </h2>
+    <p class="text-lg text-graphite max-w-xl mx-auto mb-10">
+      Send your date, theme and guest count. We will handle the rest, down to the last sprinkle.
+    </p>
+    <a href={primaryCta.href} target="_blank" rel="noopener" class="btn-ledger !text-base !px-8 !py-4">
+      <InstagramIcon size={18} />
+      {primaryCta.label}
+    </a>
+
+    <dl class="mt-16 max-w-lg mx-auto text-left font-mono text-sm border-t-2 border-navy">
+      {rows.map(({ label, value, href }) => (
+        <div class="flex items-baseline py-3 border-b border-navy/20">
+          <dt class="text-graphite uppercase tracking-wider text-xs">{label}</dt>
+          <span class="leader" aria-hidden="true"></span>
+          <dd>{href ? <a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noopener" class="hover:text-redpen underline decoration-redpen/40 underline-offset-4">{value}</a> : value}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<footer class="bg-navy text-receipt/60 font-mono text-xs py-8 pb-24 md:pb-8">
+  <div class="max-w-6xl mx-auto px-5 flex flex-col sm:flex-row gap-2 justify-between">
+    <span>&copy; {new Date().getFullYear()} {business.name}</span>
+    <span>All accounts settled in sugar.</span>
+  </div>
+</footer>
+
+<a
+  href={primaryCta.href}
+  target="_blank"
+  rel="noopener"
+  class="md:hidden fixed inset-x-3 bottom-3 z-40 btn-ledger shadow-[4px_4px_0_var(--color-redpen)]"
+>
+  <InstagramIcon size={16} />
+  Place an order
+</a>

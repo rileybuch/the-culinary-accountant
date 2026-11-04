@@ -1,0 +1,29 @@
+---
+import InstagramIcon from './InstagramIcon.astro';
+import { orderSteps, primaryCta } from '../data/site';
+---
+
+<section id="procedure" class="bg-navy text-receipt py-24 border-b-2 border-navy">
+  <div class="max-w-6xl mx-auto px-5">
+    <p class="label !text-receipt/60 mb-3"><span class="text-redpen">03</span> / Standard operating procedure</p>
+    <h2 class="font-display text-4xl md:text-6xl mb-14">How an order is processed</h2>
+
+    <ol class="grid md:grid-cols-3 gap-px bg-receipt/20 border border-receipt/20 mb-14">
+      {orderSteps.map(({ title, description }, i) => (
+        <li class="bg-navy p-7 md:p-8">
+          <p class="font-mono text-sm text-receipt/60 mb-6 flex items-center gap-3">
+            <span class="text-redpen font-semibold">Step {String(i + 1).padStart(2, '0')}</span>
+            {i < orderSteps.length - 1 && <span aria-hidden="true" class="flex-1 border-t border-dashed border-receipt/30"></span>}
+          </p>
+          <h3 class="font-display text-2xl md:text-3xl mb-3">{title}</h3>
+          <p class="text-receipt/70 leading-relaxed">{description}</p>
+        </li>
+      ))}
+    </ol>
+
+    <a href={primaryCta.href} target="_blank" rel="noopener" class="btn-ledger !bg-receipt !text-navy hover:!bg-redpen hover:!text-receipt">
+      <InstagramIcon size={16} />
+      {primaryCta.label}
+    </a>
+  </div>
+</section>

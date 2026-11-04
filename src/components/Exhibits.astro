@@ -1,0 +1,115 @@
+---
+import { Picture, getImage } from 'astro:assets';
+import InstagramIcon from './InstagramIcon.astro';
+import { gallery, instagram } from '../data/site';
+
+const counts = gallery.reduce<Record<string, number>>((acc, { category }) => {
+  acc[category] = (acc[category] ?? 0) + 1;
+  return acc;
+}, {});
+const filters = [{ name: 'All', count: gallery.length }, ...Object.entries(counts).map(([name, count]) => ({ name, count }))];
+
+const items = await Promise.all(
+  gallery.map(async (item, i) => ({
+    ...item,
+    // Exhibits are lettered A, B, C... matching the evidence-file conceit.
+    letter: String.fromCharCode(65 + i),
+    full: (await getImage({ src: item.src, width: 1600, format: 'webp' })).src,
+  })),
+);
+---
+
+<section id="exhibits" class="py-24 bg-receipt border-b-2 border-navy">
+  <div class="max-w-6xl mx-auto px-5">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
+      <div>
+        <p class="label mb-3"><span class="text-redpen">01</span> / Supporting documentation</p>
+        <h2 class="font-display text-4xl md:text-6xl">Exhibits A through {items.at(-1)?.letter}</h2>
+      </div>
+      <p class="text-graphite max-w-sm">Recent orders, each designed from scratch. Select any exhibit to inspect it more closely.</p>
+    </div>
+
+    <div class="flex flex-wrap gap-0 border-2 border-navy w-fit mb-10 font-mono text-sm" role="group" aria-label="Filter exhibits">
+      {filters.map(({ name, count }, i) => (
+        <button
+          type="button"
+          data-filter={name}
+          aria-pressed={i === 0 ? 'true' : 'false'}
+          class="filter-btn px-4 py-2.5 border-r-2 border-navy last:border-r-0 uppercase tracking-wider transition-colors aria-pressed:bg-navy aria-pressed:text-receipt hover:bg-grid aria-pressed:hover:bg-navy"
+        >
+          {name} <span class="opacity-60">({String(count).padStart(2, '0')})</span>
+        </button>
+      ))}
+    </div>
+
+    <ul class="grid grid-cols-2 lg:grid-cols-5 gap-4 md:gap-5">
+      {items.map((item) => (
+        <li class="exhibit" data-category={item.category}>
+          <button
+            type="button"
+            class="group block w-full text-left border-2 border-navy bg-paper p-2 transition-transform hover:-translate-y-1 hover:shadow-[5px_5px_0_var(--color-navy)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-redpen"
+            data-full={item.full}
+            data-alt={item.alt}
+            data-caption={`Exhibit ${item.letter}: ${item.caption}`}
+            aria-label={`View larger: Exhibit ${item.letter}, ${item.caption}`}
+          >
+            <div class="relative">
+              <Picture src={item.src} alt={item.alt} widths={[280, 440, 600]} sizes="(min-width: 1024px) 210px, 46vw" formats={['avif', 'webp']} class="w-full aspect-square object-cover" />
+              <span class="absolute top-2 left-2 bg-receipt/95 border border-redpen text-redpen font-mono text-[11px] font-semibold tracking-widest px-1.5 py-0.5">EXH. {item.letter}</span>
+            </div>
+            <p class="font-mono text-xs mt-2.5 leading-snug min-h-[2.5em]">{item.caption}</p>
+            <p class="label !text-[10px] mt-1 flex justify-between"><span>{item.category}</span><span>{item.occasion}</span></p>
+          </button>
+        </li>
+      ))}
+    </ul>
+
+    <p class="mt-12 font-mono text-sm">
+      Full records on file at
+      <a href={instagram.url} target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-redpen underline decoration-2 underline-offset-4 hover:text-navy">
+        <InstagramIcon size={15} />{instagram.handle}
+      </a>
+    </p>
+  </div>
+
+  <dialog id="lightbox" class="m-auto max-w-[min(94vw,1000px)] bg-receipt border-2 border-navy p-3 md:p-4 backdrop:bg-navy/85" aria-label="Photo viewer">
+    <figure>
+      <img id="lightbox-img" src="" alt="" class="max-h-[78vh] w-auto mx-auto" />
+      <figcaption class="flex items-center justify-between gap-6 mt-3 font-mono text-sm">
+        <span id="lightbox-caption"></span>
+        <button id="lightbox-close" type="button" class="stamp !text-xs !px-2 hover:bg-redpen hover:text-receipt">Close</button>
+      </figcaption>
+    </figure>
+  </dialog>
+</section>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const exhibits = document.querySelectorAll<HTMLElement>('.exhibit');
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      exhibits.forEach((el) => {
+        el.hidden = btn.dataset.filter !== 'All' && el.dataset.category !== btn.dataset.filter;
+      });
+    });
+  });
+
+  // Native <dialog> provides focus trapping and Escape-to-close without a library.
+  const dialog = document.getElementById('lightbox') as HTMLDialogElement | null;
+  const img = document.getElementById('lightbox-img') as HTMLImageElement | null;
+  const caption = document.getElementById('lightbox-caption');
+  document.querySelectorAll<HTMLButtonElement>('[data-full]').forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      if (!dialog || !img || !caption) return;
+      img.src = trigger.dataset.full ?? '';
+      img.alt = trigger.dataset.alt ?? '';
+      caption.textContent = trigger.dataset.caption ?? '';
+      dialog.showModal();
+    });
+  });
+  document.getElementById('lightbox-close')?.addEventListener('click', () => dialog?.close());
+  dialog?.addEventListener('click', (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+</script>

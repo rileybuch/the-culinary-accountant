@@ -1,0 +1,10 @@
+---
+// Hand-drawn red-pen ellipse wrapped around inline text, as if marked up by an auditor.
+---
+
+<span class="relative inline-block whitespace-nowrap">
+  <slot />
+  <svg class="absolute -inset-x-[7%] -top-[2%] w-[114%] h-[112%] pointer-events-none" viewBox="0 0 300 100" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M150 8 C 60 6, 8 28, 12 54 C 16 84, 110 94, 170 90 C 250 86, 296 66, 288 40 C 280 14, 200 4, 120 12" fill="none" stroke="#C8372D" stroke-width="3.5" stroke-linecap="round" />
+  </svg>
+</span>

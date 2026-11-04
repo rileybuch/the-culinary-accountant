@@ -1,22 +1,60 @@
 @import "tailwindcss";
 
+/* "Ledger" theme: leans into the brand name. Graph paper, receipt tape, red-pen marks
+   and monospaced figures make the site memorable and give the business a voice that
+   no generic bakery template has. */
 @theme {
-  --color-primary: #2D5A1B;
-  --color-secondary: #C9A84C;
-  --color-cream: #FAF7F0;
-  --color-charcoal: #2C2C2C;
+  --color-paper: #F4F1E8;
+  --color-receipt: #FFFDF7;
+  --color-grid: #D9E3EC;
+  --color-navy: #1F2A44;
+  --color-redpen: #C8372D;
+  --color-ledger: #2F6B4F;
+  --color-graphite: #5B5F68;
 
-  --font-display: "Playfair Display", serif;
-  --font-body: Inter, sans-serif;
+  --font-display: "DM Serif Display", Georgia, serif;
+  --font-body: "IBM Plex Sans", ui-sans-serif, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 }
 
-/* Offset in-page anchor jumps so section headings are not hidden under the sticky nav. */
 html {
   scroll-padding-top: 5rem;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+@layer components {
+  .graph-paper {
+    background-color: var(--color-paper);
+    background-image:
+      linear-gradient(var(--color-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
+    background-size: 24px 24px;
   }
+  /* Zig-zag torn edge along the bottom of the receipt, drawn with a mask so it works on
+     any background without extra images. */
+  .receipt {
+    background: var(--color-receipt);
+    --tooth: 10px;
+    mask:
+      conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(var(--tooth) * 2) 100%;
+    padding-bottom: calc(var(--tooth) + 1.5rem);
+  }
+  .label {
+    @apply font-mono text-[11px] uppercase tracking-[0.18em] text-graphite;
+  }
+  .stamp {
+    @apply inline-block font-mono font-semibold uppercase tracking-[0.2em] text-redpen border-2 border-redpen rounded px-3 py-1;
+  }
+  .btn-ledger {
+    @apply inline-flex items-center justify-center gap-2.5 bg-navy text-receipt font-mono text-sm font-medium uppercase tracking-[0.12em] px-6 py-3.5 rounded-sm transition-colors hover:bg-ledger;
+  }
+  .btn-ledger-outline {
+    @apply inline-flex items-center justify-center gap-2.5 border-2 border-navy text-navy font-mono text-sm font-medium uppercase tracking-[0.12em] px-6 py-3 rounded-sm transition-colors hover:bg-navy hover:text-receipt;
+  }
+  .leader {
+    @apply flex-1 border-b-2 border-dotted border-navy/25 mx-2 translate-y-[-4px];
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
 }
